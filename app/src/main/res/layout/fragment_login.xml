@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/bg_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.LoginFragment">
+
+    <TextView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/tizimga_kirish_text"
+        android:text="Tizimga kirish"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/my_black_color"
+        android:textSize="36sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toBottomOf="@id/tizimga_kirish_text"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="40dp"
+        android:outlineSpotShadowColor="#cccccc"
+        android:layout_marginRight="40dp"
+        app:cardCornerRadius="10dp"
+        android:id="@+id/login_card_tel"
+        app:cardElevation="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <EditText
+            android:id="@+id/login_tel_raqam_et"
+            android:inputType="phone"
+            android:hint="Telefon raqam"
+            android:background="@drawable/edittext_bg"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toBottomOf="@id/login_card_tel"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="40dp"
+        android:outlineSpotShadowColor="#cccccc"
+        android:layout_marginRight="40dp"
+        app:cardCornerRadius="10dp"
+        android:id="@+id/login_card_password"
+        app:cardElevation="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <EditText
+            android:id="@+id/login_password_et"
+            android:hint="Parol"
+            android:inputType="textPassword"
+            android:background="@drawable/edittext_bg"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/login_card_password"
+        android:layout_marginTop="40dp"
+        android:text="Ro'yxatdan o'tish"
+        android:id="@+id/login_singupbtn"
+        android:textColor="@color/main_color"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toBottomOf="@id/login_singupbtn"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="40dp"
+        android:background="?selectableItemBackground"
+        android:foreground="?selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:outlineSpotShadowColor="@color/main_color"
+        android:backgroundTint="@color/main_color"
+        android:layout_marginRight="40dp"
+        app:cardCornerRadius="10dp"
+        android:id="@+id/login_card_btn"
+        app:cardElevation="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+        <TextView
+            android:id="@+id/login_enter_btn"
+            android:background="@drawable/edittext_bg"
+            android:text="Tizimga kirish"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_margin="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/login_version_tv"
+        android:background="@drawable/edittext_bg"
+        android:text="Version 1.0"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/login_card_btn"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</androidx.constraintlayout.widget.ConstraintLayout>
