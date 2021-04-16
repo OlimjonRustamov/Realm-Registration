@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.realm_registration.Adapters.ContactAdapter
 import com.example.realm_registration.R
+import com.example.realm_registration.RealmObjects.Contact
 import com.example.realm_registration.databinding.FragmentUsersBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -20,19 +22,17 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import io.realm.Realm
+import io.realm.RealmResults
+import io.realm.kotlin.where
 
 class UsersFragment : Fragment() {
     lateinit var root: View
     lateinit var binding: FragmentUsersBinding
-//    lateinit var db:MyDbHelper
+    lateinit var db:Realm
 
-//    var contactList=ArrayList<Contact>()
+    lateinit var contactList:RealmResults<Contact>
 //    var contactAdapter: ContactAdapter? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +40,7 @@ class UsersFragment : Fragment() {
     ): View {
         root = inflater.inflate(R.layout.fragment_users, container, false)
         binding= FragmentUsersBinding.bind(root)
-//        db = MyDbHelper(root.context)
+        db = Realm.getDefaultInstance()
 
 //        makeAdapter()
 
@@ -103,9 +103,9 @@ class UsersFragment : Fragment() {
     }
 
 //    private fun makeAdapter() {
-//        contactList=db.getAllContacts()
-//        contactAdapter = ContactAdapter(contactList)
-//        binding.contactsRv.adapter = contactAdapter
+//        contactList=db.where<Contact>().findAll()
+//        contactAdapter = ContactAdapter(binding.root.context,contactList)
+//        binding.contactsRv.setAdapter(contactAdapter)
 //        binding.contactsRv.layoutManager= LinearLayoutManager(root.context)
 //    }
 }

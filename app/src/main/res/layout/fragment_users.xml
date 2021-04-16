@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.UsersFragment">
+    tools:context=".fragment.UsersFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -23,11 +23,14 @@
             tools:targetApi="lollipop" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
         android:layout_width="match_parent"
         android:id="@+id/contacts_rv"
         android:backgroundTint="@color/bg_color"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:rrvLayoutType="LinearLayout"
+        app:rrvEmptyLayoutId="@layout/free_layout"
+        app:rrvIsRefreshable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

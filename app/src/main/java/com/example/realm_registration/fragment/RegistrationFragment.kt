@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.realm_registration.Adapters.SpinnerAdapter
 import com.example.realm_registration.BuildConfig
 import com.example.realm_registration.R
+import com.example.realm_registration.RealmObjects.Contact
 import com.example.realm_registration.databinding.FragmentRegistrationBinding
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
@@ -24,17 +26,20 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import io.realm.Realm
+import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.camera_or_gallery_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
 class RegistrationFragment : Fragment() {
     lateinit var dialog_view:View
-//    lateinit var db:MyDbHelper
+    lateinit var db:Realm
     lateinit var root:View
     lateinit var binding: FragmentRegistrationBinding
     var spinnerList=ArrayList<String>()
@@ -47,7 +52,8 @@ class RegistrationFragment : Fragment() {
     ): View {
         root = inflater.inflate(R.layout.fragment_registration, container, false)
         binding = FragmentRegistrationBinding.bind(root)
-//        db = MyDbHelper(root.context)
+        db = Realm.getDefaultInstance()
+
         dialog_view = LayoutInflater.from(root.context).inflate(R.layout.camera_or_gallery_dialog, null, false)
         photoUri= FileProvider.getUriForFile(root.context, BuildConfig.APPLICATION_ID,imageFile)
 
@@ -90,26 +96,40 @@ class RegistrationFragment : Fragment() {
 
             val manzil = binding.registationManzilEt.text.toString().trim()
             val parol = binding.registationParolEt.text.toString().trim()
-            Toast.makeText(binding.root.context, "Shoshmay tur", Toast.LENGTH_SHORT).show()
-//            val contacts=db.getAllContacts()
-//            var t = true
-//            for (i in 0 until contacts.size) {
-//                if (contacts[i].tel_raqam == tel_raqam) {
-//                    t = false
-//                }
-//            }
+            val contacts=db.where<Contact>().findAll()
+            var t = true
+            try {
+                for (i in 0 until contacts.size) {
+                    if (contacts[i]!!.tel_raqam == tel_raqam) {
+                        t = false
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("TUIT", "setClickMtd: $e")
+            }
 
-//            if (ism_familya != "" && tel_raqam != "" && davlat != "" && manzil != "" && parol != "" && image_path != "") {
-//                if (t) {
-//                    db.insertContact(Contact(ism_familya, tel_raqam, davlat, manzil, parol, image_path))
-//                    findNavController().popBackStack()
-//                    Snackbar.make(root, "Muvaffaqiyatli bajarildi", Snackbar.LENGTH_LONG).show()
-//                } else {
-//                    Snackbar.make(root, "Ushbu raqamli foydalanuvchi mavjud", Snackbar.LENGTH_LONG).show()
-//                }
-//            } else {
-//                Snackbar.make(root, "Barcha maydonlarni to'ldiring!", Snackbar.LENGTH_LONG).show()
-//            }
+            if (ism_familya != "" && tel_raqam != "" && davlat != "" && manzil != "" && parol != "" && image_path != "") {
+                if (t) {
+                    val contact = Contact()
+                    contact.ism_familya = ism_familya
+                    contact.parol = parol
+                    contact.tel_raqam = tel_raqam
+                    contact.manzil = manzil
+                    contact.image_path = image_path
+                    contact.davlat = davlat
+
+                    db.beginTransaction()
+                    db.insert(contact)
+                    db.commitTransaction()
+
+                    findNavController().popBackStack()
+                    Snackbar.make(root, "Muvaffaqiyatli bajarildi", Snackbar.LENGTH_LONG).show()
+                } else {
+                    Snackbar.make(root, "Ushbu raqamli foydalanuvchi mavjud", Snackbar.LENGTH_LONG).show()
+                }
+            } else {
+                Snackbar.make(root, "Barcha maydonlarni to'ldiring!", Snackbar.LENGTH_LONG).show()
+            }
         }
     }
 
