@@ -48,9 +48,9 @@ class LoginFragment : Fragment() {
             if (tel_raqam != "" && password != "") {
                 var parol= ""
                 try {
-                    parol = getOneContactByTelNumber(tel_raqam)!!.parol
+                    parol =db.where<Contact>().equalTo("tel_raqam",tel_raqam).findFirst()!!.parol
                 } catch (e: NullPointerException) {
-                    Toast.makeText(binding.root.context, "Kutilmagan xatolik", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(binding.root.context, "Bunday raqamli foydalanuvchi mavjud emas", Toast.LENGTH_SHORT).show()
                 }
                 if (parol != "" && parol == password) {
                     Snackbar.make(root, "Muvaffaqiyatli amalga oshirildi", Snackbar.LENGTH_LONG).show()
@@ -62,13 +62,5 @@ class LoginFragment : Fragment() {
                 Snackbar.make(root,"Barcha maydonlarni to'ldiring", Snackbar.LENGTH_LONG).show()
             }
         }
-    }
-    private fun getOneContactByTelNumber(tel_raqam: String):Contact? {
-        for (i in 0 until contacts.size) {
-            if (contacts[i]!!.tel_raqam == tel_raqam) {
-                return contacts[i]
-            }
-        }
-        return null
     }
 }
