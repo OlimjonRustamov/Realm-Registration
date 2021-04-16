@@ -23,14 +23,11 @@
             tools:targetApi="lollipop" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/contacts_rv"
         android:backgroundTint="@color/bg_color"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        app:rrvLayoutType="LinearLayout"
-        app:rrvEmptyLayoutId="@layout/free_layout"
-        app:rrvIsRefreshable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_height="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

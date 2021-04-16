@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.realm_registration.Adapters.ContactAdapter
+//import com.example.realm_registration.Adapters.ContactAdapter
 import com.example.realm_registration.R
 import com.example.realm_registration.RealmObjects.Contact
 import com.example.realm_registration.databinding.FragmentUsersBinding
