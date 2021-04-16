@@ -16,7 +16,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.realm_registration.Adapters.SpinnerAdapter
 import com.example.realm_registration.BuildConfig
 import com.example.realm_registration.R
-import com.example.realm_registration.RealmObjects.Contact
 import com.example.realm_registration.databinding.FragmentRegistrationBinding
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
