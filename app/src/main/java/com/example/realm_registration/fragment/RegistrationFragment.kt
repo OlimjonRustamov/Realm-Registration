@@ -27,12 +27,14 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import io.realm.Realm
+import io.realm.RealmResults
 import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.camera_or_gallery_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.Exception
+import java.lang.NullPointerException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -45,6 +47,7 @@ class RegistrationFragment : Fragment() {
     var spinnerList=ArrayList<String>()
     lateinit var dialog: AlertDialog
 
+    lateinit var contacts:RealmResults<Contact>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +78,9 @@ class RegistrationFragment : Fragment() {
 
         val spinnerAdapter= SpinnerAdapter(spinnerList)
         binding.registrationDavlatSpinner.adapter=spinnerAdapter
+
+        contacts = db.where<Contact>().findAll()
+        Log.d("TTTT", "loadData: $contacts")
     }
 
     private fun setClickMtd() {
@@ -96,7 +102,6 @@ class RegistrationFragment : Fragment() {
 
             val manzil = binding.registationManzilEt.text.toString().trim()
             val parol = binding.registationParolEt.text.toString().trim()
-            val contacts=db.where<Contact>().findAll()
             var t = true
             try {
                 for (i in 0 until contacts.size) {
@@ -143,7 +148,7 @@ class RegistrationFragment : Fragment() {
         uri?:return@registerForActivityResult
         binding.registrationImageview.setImageURI(uri)
         val ins = activity?.contentResolver?.openInputStream(uri)
-        val file = File(activity?.filesDir, "imageNew0.jpg")
+        val file = File(activity?.filesDir, "${getLastImagePath()}.jpg")
         val fileOutputStream = FileOutputStream(file)
         ins?.copyTo(fileOutputStream)
         ins?.close()
@@ -190,7 +195,7 @@ class RegistrationFragment : Fragment() {
         if (it) {
             binding.registrationImageview.setImageURI(photoUri)
             val ins = activity?.contentResolver?.openInputStream(photoUri)
-            val file = File(activity?.filesDir, "imageNew0.jpg")
+            val file = File(activity?.filesDir, "${getLastImagePath()}.jpg")
             val fileOutputStream = FileOutputStream(file)
             ins?.copyTo(fileOutputStream)
             ins?.close()
@@ -230,5 +235,31 @@ class RegistrationFragment : Fragment() {
                     }
                 }).check();
         }
+    }
+
+    //rasmni takrorlanmas nom bilan saqlash
+    //quyidagi funksiya bazada turgan oxirgi elementning image_path'ini olib +1 qilib qaytaradi
+    //lekin bazaga oxirgi qo'shilgan oxirida turmas ekan shuni to'g'rilash kerak
+    private fun getLastImagePath():Int {
+        var n=0
+        var str=""
+        if (contacts.size != 0) {
+            try {
+                var last_path_reverse = contacts[contacts.size-1]!!.image_path.reversed()
+                last_path_reverse = last_path_reverse.substring(4)
+                for (i in 0 until last_path_reverse.length) {
+                    if ((last_path_reverse[i].toInt()) <= 57 && (last_path_reverse[i].toInt()) >= 48) {
+                        str += last_path_reverse[i]
+                    } else {
+                        break
+                    }
+                }
+                n = Integer.parseInt(str.reversed())
+            } catch (e: NullPointerException) {
+                return 0
+            }
+        }
+        Log.d("TTTT", "getLastImagePath: ${n+1}")
+        return n+1
     }
 }
