@@ -10,8 +10,12 @@ import io.realm.annotations.Required
 //import io.realm.annotations.Required
 
 open class Contact
-: RealmObject() {
+    : RealmObject() {
+
     @PrimaryKey
+    var id: Int = 0
+
+    @Required
     var tel_raqam: String = "tel_raqam"
 
     @Required

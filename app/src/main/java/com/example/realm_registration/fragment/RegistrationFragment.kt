@@ -34,9 +34,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.lang.Exception
-import java.lang.NullPointerException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.NullPointerException
 import kotlin.collections.ArrayList
 
 class RegistrationFragment : Fragment() {
@@ -116,6 +116,7 @@ class RegistrationFragment : Fragment() {
             if (ism_familya != "" && tel_raqam != "" && davlat != "" && manzil != "" && parol != "" && image_path != "") {
                 if (t) {
                     val contact = Contact()
+                    contact.id=getCurrentIndex()
                     contact.ism_familya = ism_familya
                     contact.parol = parol
                     contact.tel_raqam = tel_raqam
@@ -148,7 +149,7 @@ class RegistrationFragment : Fragment() {
         uri?:return@registerForActivityResult
         binding.registrationImageview.setImageURI(uri)
         val ins = activity?.contentResolver?.openInputStream(uri)
-        val file = File(activity?.filesDir, "${getLastImagePath()}.jpg")
+        val file = File(activity?.filesDir, "${getCurrentIndex()}.jpg")
         val fileOutputStream = FileOutputStream(file)
         ins?.copyTo(fileOutputStream)
         ins?.close()
@@ -195,7 +196,7 @@ class RegistrationFragment : Fragment() {
         if (it) {
             binding.registrationImageview.setImageURI(photoUri)
             val ins = activity?.contentResolver?.openInputStream(photoUri)
-            val file = File(activity?.filesDir, "${getLastImagePath()}.jpg")
+            val file = File(activity?.filesDir, "${getCurrentIndex()}.jpg")
             val fileOutputStream = FileOutputStream(file)
             ins?.copyTo(fileOutputStream)
             ins?.close()
@@ -240,26 +241,24 @@ class RegistrationFragment : Fragment() {
     //rasmni takrorlanmas nom bilan saqlash
     //quyidagi funksiya bazada turgan oxirgi elementning image_path'ini olib +1 qilib qaytaradi
     //lekin bazaga oxirgi qo'shilgan oxirida turmas ekan shuni to'g'rilash kerak
-    private fun getLastImagePath():Int {
-        var n=0
-        var str=""
+    private fun getCurrentIndex(): Int {
+        var index = 0
         if (contacts.size != 0) {
             try {
-                var last_path_reverse = contacts[contacts.size-1]!!.image_path.reversed()
-                last_path_reverse = last_path_reverse.substring(4)
-                for (i in 0 until last_path_reverse.length) {
-                    if ((last_path_reverse[i].toInt()) <= 57 && (last_path_reverse[i].toInt()) >= 48) {
-                        str += last_path_reverse[i]
-                    } else {
-                        break
+                index = contacts[0]!!.id
+                for (i in 0 until contacts.size) {
+                    if (index < contacts[i]!!.id) {
+                        index = contacts[i]!!.id
                     }
                 }
-                n = Integer.parseInt(str.reversed())
+                return index + 1
             } catch (e: NullPointerException) {
+                return 0
+            } catch (e: NumberFormatException) {
                 return 0
             }
         }
-        Log.d("TTTT", "getLastImagePath: ${n+1}")
-        return n+1
+        return 0
+
     }
 }
