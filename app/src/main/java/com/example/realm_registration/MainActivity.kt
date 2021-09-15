@@ -1,7 +1,7 @@
 package com.example.realm_registration
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import io.realm.Realm
 import io.realm.RealmConfiguration
 
@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity() {
 
 
         val realmName = "myContacts.db"
-        val config = RealmConfiguration.Builder().name(realmName).schemaVersion(1).deleteRealmIfMigrationNeeded().build()
+        val config = RealmConfiguration.Builder().name(realmName).schemaVersion(1)
+            .deleteRealmIfMigrationNeeded().build()
         var db = Realm.getInstance(config)
     }
 }

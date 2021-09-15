@@ -10,13 +10,13 @@ import com.example.realm_registration.RealmObjects.Contact
 import com.example.realm_registration.databinding.ItemContactBinding
 import io.realm.RealmResults
 
-class  ContactAdapter(var context:Context,var contacts: RealmResults<Contact>) :
+class ContactAdapter(var context: Context, var contacts: RealmResults<Contact>) :
     RecyclerView.Adapter<ContactAdapter.Vh>() {
 
-    var myonItemClick:onItemClick?=null
-    lateinit var binding:ItemContactBinding
+    var myonItemClick: onItemClick? = null
+    lateinit var binding: ItemContactBinding
 
-    inner class Vh(var binding:ItemContactBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class Vh(var binding: ItemContactBinding) : RecyclerView.ViewHolder(binding.root) {
         fun myBind(contact: Contact) {
             binding.itemContactIsmFamilya.text = contact.ism_familya
             binding.itemContactTelRaqam.text = contact.tel_raqam
@@ -45,7 +45,7 @@ class  ContactAdapter(var context:Context,var contacts: RealmResults<Contact>) :
         }
     }
 
-    interface onItemClick{
+    interface onItemClick {
         fun onClick(contact: Contact)
     }
 }

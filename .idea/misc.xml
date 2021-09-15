@@ -5,8 +5,15 @@
       <map>
         <entry key="app/src/main/res/drawable/dialog_bg.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/ic_baseline_more_horiz_24.xml" value="0.20833333333333334" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.14402173913043478" />
         <entry key="app/src/main/res/layout/call_sms_bottom_dialog.xml" value="0.14402173913043478" />
+        <entry key="app/src/main/res/layout/camera_or_gallery_dialog.xml" value="0.14402173913043478" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.14402173913043478" />
+        <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.14402173913043478" />
+        <entry key="app/src/main/res/layout/fragment_users.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/free_layout.xml" value="0.14402173913043478" />
         <entry key="app/src/main/res/layout/item_contact.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/spinner_item.xml" value="0.14402173913043478" />
       </map>
     </option>
   </component>
