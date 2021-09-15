@@ -6,13 +6,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.realm_registration.Adapters.SpinnerAdapter
 import com.example.realm_registration.BuildConfig
@@ -33,21 +32,19 @@ import kotlinx.android.synthetic.main.camera_or_gallery_dialog.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.NullPointerException
 import kotlin.collections.ArrayList
 
 class RegistrationFragment : Fragment() {
-    lateinit var dialog_view:View
-    lateinit var db:Realm
-    lateinit var root:View
+    lateinit var dialog_view: View
+    lateinit var db: Realm
+    lateinit var root: View
     lateinit var binding: FragmentRegistrationBinding
-    var spinnerList=ArrayList<String>()
+    var spinnerList = ArrayList<String>()
     lateinit var dialog: AlertDialog
 
-    lateinit var contacts:RealmResults<Contact>
+    lateinit var contacts: RealmResults<Contact>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,8 +54,9 @@ class RegistrationFragment : Fragment() {
         binding = FragmentRegistrationBinding.bind(root)
         db = Realm.getDefaultInstance()
 
-        dialog_view = LayoutInflater.from(root.context).inflate(R.layout.camera_or_gallery_dialog, null, false)
-        photoUri= FileProvider.getUriForFile(root.context, BuildConfig.APPLICATION_ID,imageFile)
+        dialog_view = LayoutInflater.from(root.context)
+            .inflate(R.layout.camera_or_gallery_dialog, null, false)
+        photoUri = FileProvider.getUriForFile(root.context, BuildConfig.APPLICATION_ID, imageFile)
 
 
         loadData()
@@ -67,6 +65,7 @@ class RegistrationFragment : Fragment() {
         setGalleryClick()
         return root
     }
+
     private fun loadData() {
         spinnerList.add("O'zbekiston")
         spinnerList.add("Rossiya")
@@ -76,16 +75,16 @@ class RegistrationFragment : Fragment() {
         spinnerList.add("Qozog'iston")
         spinnerList.add("Tojikiston")
 
-        val spinnerAdapter= SpinnerAdapter(spinnerList)
-        binding.registrationDavlatSpinner.adapter=spinnerAdapter
+        val spinnerAdapter = SpinnerAdapter(spinnerList)
+        binding.registrationDavlatSpinner.adapter = spinnerAdapter
 
         contacts = db.where<Contact>().findAll()
         Log.d("TTTT", "loadData: $contacts")
     }
 
     private fun setClickMtd() {
-        dialog= AlertDialog.Builder(root.context).create()
-        binding.constraintImage.setOnClickListener{
+        dialog = AlertDialog.Builder(root.context).create()
+        binding.constraintImage.setOnClickListener {
             dialog_view.dialog_bekor_qilish.setOnClickListener {
                 dialog.cancel()
                 dialog.dismiss()
@@ -97,7 +96,7 @@ class RegistrationFragment : Fragment() {
 
         binding.registrCardBtn.setOnClickListener {
             val ism_familya = binding.registationIsmFamilyaEt.text.toString().trim()
-            val tel_raqam=binding.registationTelRaqamEt.text.toString().trim()
+            val tel_raqam = binding.registationTelRaqamEt.text.toString().trim()
             val davlat = spinnerList[binding.registrationDavlatSpinner.selectedItemPosition]
 
             val manzil = binding.registationManzilEt.text.toString().trim()
@@ -116,7 +115,7 @@ class RegistrationFragment : Fragment() {
             if (ism_familya != "" && tel_raqam != "" && davlat != "" && manzil != "" && parol != "" && image_path != "") {
                 if (t) {
                     val contact = Contact()
-                    contact.id=getCurrentIndex()
+                    contact.id = getCurrentIndex()
                     contact.ism_familya = ism_familya
                     contact.parol = parol
                     contact.tel_raqam = tel_raqam
@@ -131,7 +130,8 @@ class RegistrationFragment : Fragment() {
                     findNavController().popBackStack()
                     Snackbar.make(root, "Muvaffaqiyatli bajarildi", Snackbar.LENGTH_LONG).show()
                 } else {
-                    Snackbar.make(root, "Ushbu raqamli foydalanuvchi mavjud", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(root, "Ushbu raqamli foydalanuvchi mavjud", Snackbar.LENGTH_LONG)
+                        .show()
                 }
             } else {
                 Snackbar.make(root, "Barcha maydonlarni to'ldiring!", Snackbar.LENGTH_LONG).show()
@@ -140,22 +140,22 @@ class RegistrationFragment : Fragment() {
     }
 
 
-
-
-
     private var image_path = ""
+
     //upload image from GALLERY
-    private val getImageContent = registerForActivityResult(ActivityResultContracts.GetContent()){ uri->
-        uri?:return@registerForActivityResult
-        binding.registrationImageview.setImageURI(uri)
-        val ins = activity?.contentResolver?.openInputStream(uri)
-        val file = File(activity?.filesDir, "${getCurrentIndex()}.jpg")
-        val fileOutputStream = FileOutputStream(file)
-        ins?.copyTo(fileOutputStream)
-        ins?.close()
-        fileOutputStream.close()
-        image_path = file.absolutePath
-    }
+    private val getImageContent =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri ?: return@registerForActivityResult
+            binding.registrationImageview.setImageURI(uri)
+            val ins = activity?.contentResolver?.openInputStream(uri)
+            val file = File(activity?.filesDir, "${getCurrentIndex()}.jpg")
+            val fileOutputStream = FileOutputStream(file)
+            ins?.copyTo(fileOutputStream)
+            ins?.close()
+            fileOutputStream.close()
+            image_path = file.absolutePath
+        }
+
     private fun setGalleryClick() {
         dialog_view.choose_gallery_btn.setOnClickListener {
             Dexter.withContext(activity)
@@ -183,16 +183,12 @@ class RegistrationFragment : Fragment() {
     }
 
 
-
-
-
-
-
     val imageFile = createImageFile()
     lateinit var photoUri: Uri
-    lateinit var currentPhotoPath:String
+    lateinit var currentPhotoPath: String
+
     //upload image from CAMERA
-    private val getCameraImage = registerForActivityResult(ActivityResultContracts.TakePicture()){
+    private val getCameraImage = registerForActivityResult(ActivityResultContracts.TakePicture()) {
         if (it) {
             binding.registrationImageview.setImageURI(photoUri)
             val ins = activity?.contentResolver?.openInputStream(photoUri)
@@ -204,6 +200,7 @@ class RegistrationFragment : Fragment() {
             image_path = file.absolutePath
         }
     }
+
     @Throws(IOException::class)
     private fun createImageFile(): File {
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
@@ -216,7 +213,8 @@ class RegistrationFragment : Fragment() {
             currentPhotoPath = absolutePath
         }
     }
-    private fun setCameraClick(){
+
+    private fun setCameraClick() {
         dialog_view.choose_camera_btn.setOnClickListener {
             Dexter.withContext(activity)
                 .withPermission(Manifest.permission.CAMERA)
@@ -231,7 +229,10 @@ class RegistrationFragment : Fragment() {
                         Snackbar.make(root, "Ruxsat berish zarur", Snackbar.LENGTH_LONG).show()
                     }
 
-                    override fun onPermissionRationaleShouldBeShown(p0: PermissionRequest?, p1: PermissionToken?) {
+                    override fun onPermissionRationaleShouldBeShown(
+                        p0: PermissionRequest?,
+                        p1: PermissionToken?
+                    ) {
                         Snackbar.make(root, "Ruxsat berish zarur", Snackbar.LENGTH_LONG).show()
                     }
                 }).check();
